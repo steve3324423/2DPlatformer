@@ -2,11 +2,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform _positionOne;
-    [SerializeField] private Transform _positionTwo;
+    [SerializeField] private Transform[] _positions;
 
-    private float _speed = 5f;
+    private Vector3 _firstPosition;
+    private Vector3 _secondPosition;
     private Vector3 _target;
+    private float _speed = 5f;
+
+    private void Awake()
+    {
+        _firstPosition  = _positions[0].position;
+        _secondPosition = _positions[1].position;
+    }
 
     private void Update()
     {
@@ -15,14 +22,14 @@ public class Enemy : MonoBehaviour
 
     private void Moves()
     {
-        Vector2 offsetPositionOne = _positionOne.position - transform.position;
-        Vector2 offsetPositionTwo = _positionTwo.position - transform.position;
+        Vector2 offsetPositionOne = _firstPosition - transform.position;
+        Vector2 offsetPositionTwo = _secondPosition - transform.position;
         float minDistance = .1f;
 
         if (offsetPositionOne.sqrMagnitude < minDistance * minDistance && offsetPositionTwo.sqrMagnitude > minDistance * minDistance)
-            _target = _positionTwo.position;
+            _target = _secondPosition;
         else if(offsetPositionTwo.sqrMagnitude < minDistance * minDistance && offsetPositionOne.sqrMagnitude > minDistance * minDistance)
-            _target = _positionOne.position;
+            _target = _firstPosition;
 
         transform.position = Vector2.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
     }

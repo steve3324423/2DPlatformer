@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour
 {
+    private static string Horizontal = "Horizontal";
+
     private Rigidbody2D _rigidbody;
     private bool _isCanJump = true;
     private float _force = 10f;
@@ -26,7 +28,7 @@ public class Movement : MonoBehaviour
 
     private void Moves()
     {
-        Vector2 diretion = Vector2.right * Input.GetAxis("Horizontal");
+        Vector2 diretion = Vector2.right * Input.GetAxis(Horizontal);
         transform.Translate(-diretion * _speed * Time.deltaTime);
 
         Running?.Invoke(diretion.x);
